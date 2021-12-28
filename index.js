@@ -1,3 +1,4 @@
+//math functions
 function add(a=0, b=0) {
 	return(a + b);
 };
@@ -42,9 +43,9 @@ function operate(a, operator, b=0) {
     }
 }
 
-
+//calculator logic functions
 function updateDisplay(str) {
-    if (str.length > 18) str = str.strip(0, 18);
+    if (str.length > 18) str = str.slice(0, 18);
     display.textContent = str;
     if(str=='') display.textContent = '0';
 }
@@ -72,6 +73,15 @@ function reset() {
     result = 0;
 }
 
+function equals() {
+    if (justOperated) update(operator);
+    ghost.textContent += ` ${input} =`;
+    memory = String(operate(memory, operator, input));
+    updateDisplay(memory);
+    if (memory=='error'||memory=='Infinity') reset();
+    else addHistory();
+}
+
 function addHistory() {
     div = document.createElement('div');
     div.classList.add('history-div')
@@ -97,15 +107,7 @@ function addHistory() {
     history.prepend(div);
 }
 
-function equals() {
-    if (justOperated) update(operator);
-    ghost.textContent += ` ${input} =`;
-    memory = String(operate(memory, operator, input));
-    updateDisplay(memory);
-    if (memory=='error'||memory=='Infinity') reset();
-    else addHistory();
-}
-
+//HTML elements and event listeners
 let display = document.getElementById('display-text');
 let ghost = document.getElementById('ghost-text')
 let history = document.getElementById('history');
@@ -191,7 +193,7 @@ digits.forEach((digit) => digit.addEventListener('click', (e) => {
 }))
 
 
-
+//defaults
 let operator = '';
 let input = '0';
 let memory = '';

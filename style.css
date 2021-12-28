@@ -1,5 +1,5 @@
 * {
-    background-color: rgb(201, 211, 193);
+    background-color: lightgray;
 }
 
 #literally-nothing {
@@ -31,7 +31,7 @@
 #calculator-wrapper {
     display: flex;
     justify-self: center;
-    height: 425px;
+    height: 415px;
     border: 5px solid black;
     border-radius: 10px;
 }
@@ -44,7 +44,7 @@
 
 #calculator {
     display: flex;
-    width: 450px;
+    width: 400px;
     height: 100%;
     flex-direction: column;
     border-right: none;
@@ -101,7 +101,7 @@
     flex-direction: column;
     background: rgb(90, 168, 0);
     color: black;
-    width: 350px;
+    width: 335px;
     height: 60px;
     border: 1px solid black;
     border-radius: 10px;
@@ -134,14 +134,16 @@
     display: grid;
     justify-self: flex-end;
     align-self: flex-start;
+    gap: 15px;
     grid-template-rows: repeat(4, 1fr);
     grid-template-columns: repeat(5, 1fr);
+    margin-bottom: 10px;
 }
 
 #buttons button {
-    width: 70px;
-    height: 50px;
-    font-size: 30px;
+    width: 55px;
+    height: 35px;
+    font-size: 24px;
 }
 
 button #decimal .disabled {
