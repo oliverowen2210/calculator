@@ -5,6 +5,7 @@
 @font-face {
     font-family: digital-7;
     src: url('./cool font/digital-7.ttf');
+
 }
 
 @font-face {
@@ -129,7 +130,7 @@
 
 #display p {
     margin: 0px;
-    background: rgb(90, 168, 0);
+    background: none;
     border-radius: 10px;
     margin-right: 8px;
 }
@@ -142,6 +143,7 @@
 
 #display-text {
     font-size: 36px;
+    line-height: 45px;
 }
 
 
