@@ -138,12 +138,10 @@
     justify-self: flex-start;
     align-self: flex-end;
     color: rgb(49, 49, 49);
-    padding-bottom: 10px;
 }
 
 #display-text {
     font-size: 36px;
-    padding-bottom: 14px;
 }
 
 
