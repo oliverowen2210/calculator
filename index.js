@@ -173,10 +173,9 @@ negButton.addEventListener('click', (e) => {
     if(input==''||input=='0' && !memory) return;
     if(justOperated) {
         if (!memory) memory = input;
-        input = memory/(-1);
         ghost.textContent = `neg(${memory})`;
-        updateDisplay(input);
-        memory = '';
+        memory = memory/(-1);
+        updateDisplay(memory);
     } else if (input) {
         input = input/(-1);
         updateDisplay(input);
