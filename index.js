@@ -4,21 +4,21 @@ function add(a=0, b=0) {
 };
 
 function subtract(a=0, b=0) {
-	return a - b;
+	return(a - b);
 };
 
 function multiply(a, b=1) {
   if (a==0||b==0) return 0;
-  return a*b; 
+  return(a * b); 
 };
 
 function divide(a, b) {
     if(a==false||b==false) return 'error';
-    return a/b;
+    return(a / b);
 };
 
 function power(a, b) {
-	return a**b;
+	return(a ** b);
 };
 
 function operate(a, operator, b=0) {
@@ -40,8 +40,8 @@ function operate(a, operator, b=0) {
             return power(a, b);
         default:
             return a;
-    }
-}
+    };
+};
 
 //calculator logic functions
 function updateDisplay(str) {
@@ -50,13 +50,16 @@ function updateDisplay(str) {
     if(str=='') display.textContent = '0';
 }
 
+//does an evaluation if memory and input have something stored
+//otherwise stores and resets input
 function storeInput() {
     if (input==='0') return;
-    if (!justOperated && memory) equals()
+    if (!justOperated && memory) equalsButton();
     if (!justOperated) memory = input;
     input = '0';
 }
 
+//resets justOperated, updates ghost text and stored operator
 function update(op=false) {
     if (justOperated == true) justOperated = false;
     ghost.textContent = '';
@@ -72,15 +75,6 @@ function reset() {
     ghost.textContent = '';
     justOperated = false;
     result = 0;
-}
-
-function equals() {
-    if (justOperated) update(operator);
-    ghost.textContent += ` ${input} =`;
-    memory = String(operate(memory, operator, input));
-    updateDisplay(memory);
-    if (memory=='error'||memory=='Infinity') reset();
-    else addHistory();
 }
 
 function addHistory() {
@@ -108,45 +102,45 @@ function addHistory() {
     history.prepend(div);
 }
 
-//HTML elements and event listeners
-let display = document.getElementById('display-text');
-let ghost = document.getElementById('ghost-text')
-let history = document.getElementById('history');
 
-let equalsButton = document.getElementById('equals');
-equalsButton.addEventListener('click', (e) => equals());
+//button functions
 
-let delButton = document.getElementById('del');
-delButton.addEventListener('click', (e) => {
+function equalsButton() {
+    if (justOperated) update(operator);
+    ghost.textContent += ` ${input} =`;
+    memory = String(operate(memory, operator, input));
+    updateDisplay(memory);
+    if (memory=='error'||memory=='Infinity') reset();
+    else addHistory();
+}
+
+function delButton() {
     if (justOperated) reset();
+    if (input && !memory && input.length == 1) input='0';
     if (input.length >1) input = input.substring(0, input.length-1);
     updateDisplay(input);
-});
+}
 
-let acButton = document.getElementById('ac');
-acButton.addEventListener('click', (e) => {
+function acButton() {
     reset();
     updateDisplay(input);
-})
+}
 
-let operatorButtons = document.querySelectorAll('.operator');
-operatorButtons.forEach((button) => button.addEventListener('click', (e) => {
+function opButton(op) {
     storeInput();
-    update(`${button.textContent}`);
-}))
+    update(op);
+}
 
-let decimalButton = document.getElementById('decimal');
-decimalButton.addEventListener('click', (e) => {
+function decimalButton() {
     if (input.indexOf('.') != -1) return;
     if (justOperated) {
         reset();
-    }
+    };
     input += '.';
     updateDisplay(input);
-})
+};
 
-let negButton = document.getElementById('neg');
-negButton.addEventListener('click', (e) => {
+function negButton() {
     if(input==''||input=='0' && !memory) return;
     if(justOperated) {
         if (!memory) memory = input;
@@ -156,17 +150,73 @@ negButton.addEventListener('click', (e) => {
     } else if (input) {
         input = input/(-1);
         updateDisplay(input);
-    } 
+    };
+};
+
+function digitButton(dig) {
+    if (input.length == 14) return;
+    if (justOperated) reset();
+    if (input=='0') input='';
+    input += dig;
+    updateDisplay(input);
+};
+
+
+let display = document.getElementById('display-text');
+let ghost = document.getElementById('ghost-text')
+let history = document.getElementById('history');
+
+let equals = document.getElementById('equals');
+equals.addEventListener('click', (e) => equalsButton());
+document.addEventListener('keydown', (e) => {
+    if (e.key == 'Enter') equalsButton();
+})
+
+let del = document.getElementById('del');
+del.addEventListener('click', (e) => delButton());
+document.addEventListener('keydown', (e) => {
+    if(e.key == 'Backspace') delButton();
+});
+
+let allClear = document.getElementById('ac');
+allClear.addEventListener('click', (e) => acButton());
+document.addEventListener('keydown', (e) => {
+    if (e.key == 'Escape') acButton();
+});
+
+let operatorButtons = document.querySelectorAll('.operator');
+operatorButtons.forEach((button) => {
+    button.addEventListener('click', (e) => opButton(button.textContent));
+    document.addEventListener('keydown', (e) =>  {
+        if (e.key == `${button.textContent}`) opButton(button.textContent);
+        });
+});
+
+let decimal = document.getElementById('decimal');
+decimal.addEventListener('click', (e) => decimalButton());
+document.addEventListener('keydown', (e) => {
+    if (e.key == '.') decimalButton();
+});
+
+let neg = document.getElementById('neg');
+neg.addEventListener('click', (e) => negButton());
+document.addEventListener('keydown', (e) => {
+    if (e.key == 'Shift') negButton();
 });
 
 let digits = document.querySelectorAll('.digit');
-digits.forEach((digit) => digit.addEventListener('click', (e) => {
-    if (input.length == 14) return
-    if (justOperated) reset();
-    if (input=='0') input='';
-    input += digit.textContent;
-    updateDisplay(input)
-}))
+digits.forEach((digit) => {
+    digit.addEventListener('click', (e) => {
+        digitButton(parseInt(digit.textContent));
+}); 
+    digit.addEventListener('keydown', (e) => {
+        if (e.key == 'Enter') e.preventDefault();
+    });
+    document.addEventListener('keydown', (e) => {
+    if (e.key == `${digit.textContent}`) {
+        digitButton(parseInt(digit.textContent));
+    }});
+});
 
 
 //defaults
