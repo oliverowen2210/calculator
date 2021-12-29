@@ -90,8 +90,8 @@ function addHistory() {
     ghostHistory = document.createElement('p');
     ghostHistory.classList.add('ghost');
     ghostHistory.textContent = ghost.textContent;
-    if (ghostHistory.textContent.length > 11) ghostHistory.textContent =
-    ghostHistory.textContent.slice(0, 11) + '...';
+    if (ghostHistory.textContent.length > 14) ghostHistory.textContent =
+    ghostHistory.textContent.slice(0, 14) + '...';
 
     result = document.createElement('p');
     result.classList.add('result');
