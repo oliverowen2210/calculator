@@ -36,7 +36,7 @@ function operate(a, operator, b=0) {
             return multiply(a, b);
         case '/':
             return divide(a, b);
-        case '^':
+        case 'exp':
             return power(a, b);
         default:
             return a;
@@ -51,6 +51,7 @@ function updateDisplay(str) {
 }
 
 function storeInput() {
+    if (input==='0') return;
     if (!justOperated && memory) equals()
     if (!justOperated) memory = input;
     input = '0';
@@ -128,35 +129,11 @@ acButton.addEventListener('click', (e) => {
     updateDisplay(input);
 })
 
-let addButton = document.getElementById('add');
-addButton.addEventListener('click', (e) => {
+let operatorButtons = document.querySelectorAll('.operator');
+operatorButtons.forEach((button) => button.addEventListener('click', (e) => {
     storeInput();
-    update('+');
-});
-
-let substractButton = document.getElementById('substract');
-substractButton.addEventListener('click', (e) => {
-    storeInput();
-    update('-');
-});
-
-let multiplyButton = document.getElementById('multiply');
-multiplyButton.addEventListener('click', (e) => {
-    storeInput();
-    update('*');
-});
-
-let divideButton = document.getElementById('divide');
-divideButton.addEventListener('click', (e) => {
-    storeInput();
-    update('/');
-});
-
-let expButton = document.getElementById('exp');
-expButton.addEventListener('click', (e) => {
-    storeInput();
-    update('^');
-})
+    update(`${button.textContent}`);
+}))
 
 let decimalButton = document.getElementById('decimal');
 decimalButton.addEventListener('click', (e) => {
